@@ -23,8 +23,9 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/MavenWorkspace/couponiumWeb/src/main/webapp/WEB-INF/lib/derbyclient.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0">
+	<classpathentry exported="true" kind="lib" path="D:/MavenWorkspace/couponiumWeb/src/main/webapp/WEB-INF/lib/derbyclient.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/couponiumJavaPart.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
 		</attributes>
@@ -34,6 +35,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/couponiumJavaPart.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,8 +1,6 @@
 package login;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,11 +24,13 @@ public class LoginSevlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher view = request.getRequestDispatcher("/WEB-INF/index.html");
-		view.forward(request, response);
+	
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
@@ -43,13 +43,13 @@ public class LoginSevlet extends HttpServlet {
 		request.getSession().setAttribute("facade", facade);
 		
 		if(facade instanceof CompanyFacade){
-			response.sendRedirect(request.getContextPath()+"src/main/webapp/WEB-INF/webPart/Company/CompanyBasic.html");
+			response.sendRedirect("Company/CompanyBasic.html");
 		}else if(facade instanceof CustomerFacade){
-			response.sendRedirect(request.getContextPath()+"src/main/webapp/WEB-INF/webPart/Client/ClientBasic.html");
+			response.sendRedirect("Client/ClientBasic");
 		}else if(facade instanceof AdminFacade){
-			response.sendRedirect(request.getContextPath()+"src/main/webapp/WEB-INF/webPart/Admin/AdminBasic.html#/");
+			response.sendRedirect("Admin/AdminBasic.html");
 		}else {
-			response.sendRedirect(request.getContextPath()+"src/main/webapp/WEB-INF/index.html");
+			response.sendRedirect("index.html");
 		}
 	}
 
