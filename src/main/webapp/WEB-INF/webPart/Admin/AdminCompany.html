@@ -1,0 +1,104 @@
+<html ng-app="Unicorn">
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="../angular.js"></script>
+        <script src="../angular-ui-router.min.js"></script>
+        
+        <script src="../bootstrap.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+            crossorigin="anonymous">
+    </head>
+    
+    <body>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="c in adm.CompaniesToEdit" ng-click="adm.selectIt($index)">
+                        <span>{{c.id + " " + c.compName}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-success" ng-if="adm.yesMessage">{{adm.yesMessage}}</div>
+                <div class="alert alert-danger" ng-if="adm.noMessage">{{adm.noMessage}}</div>
+                <div class="alert alert-success" ng-if="adm.purgedMes">{{adm.purgedMes}}</div>
+                <div class="alert alert-danger" ng-if="adm.notPurged">{{adm.notPurged}}</div>
+                <button ng-click="adm.creatiOn()">Create a New Company</button>
+                <button ng-hide="adm.EditIsOn" ng-click="adm.startEdit()">Edit</button>
+                <button ng-show="adm.EditIsOn" ng-click="adm.updateStart()">Save</button>
+                <button ng-click="adm.DeleteIt()">Delete Company</button>
+                <div ng-hide="adm.creationMode">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Id: </th>
+                                <td>{{adm.selectedComp.id}}</td>
+                            </tr>
+    
+                            <tr>
+                                <th scope="row">Registred Name: </th>
+                                <td>{{adm.selectedComp.compName}}</td>
+                            </tr>
+    
+                            <tr>
+                                <th scope="row">Email: </th>
+                                <td ng-hide="adm.EditIsOn">{{adm.selectedComp.email}}</td>
+                                <td>
+                                    <input type="text" ng-show="adm.EditIsOn" ng-model="adm.selectedComp.email">
+                                </td>
+                            </tr>
+    
+                            <tr>
+                                <th scope="row">Password: </th>
+                                <td ng-hide="adm.EditIsOn">{{adm.selectedComp.password}}</td>
+                                <td>
+                                    <input type="text" ng-show="adm.EditIsOn" ng-model="adm.selectedComp.password">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="alert alert-success" ng-if="adm.yesMes">{{adm.yesMes}}</div>
+                <div class="alert alert-danger" ng-if="adm.noMes">{{adm.noMes}}</div>
+                <div ng-show="adm.creationMode">
+                    <form>
+                        <h3>Insert info here: </h3>
+                        <div class="form-group">
+                            <label>Company id:</label>
+                            <input type="number" class="form-control" ng-model="adm.newCompany.id" placeholder="Digits Only Please!" required>
+                        </div>
+                        <div class="from-group">
+                            <label>Company name:</label>
+                            <input type="text" class="form-control" ng-model="adm.newCompany.compName" required>
+                        </div>
+                        <div class="from-group">
+                            <label>Company password:</label>
+                            <input type="text" class="form-control" ng-model="adm.newCompany.password">
+                        </div>
+                        <div class="from-group">
+                            <label>Company email:</label>
+                            <input type="text" class="form-control" ng-model="adm.newCompany.email">
+                        </div>
+                        <button ng-click="adm.startNew()"> Create me! </button>
+                    </form>
+                </div>
+                <div ng-show="adm.deleteMode">
+                    <input type="number" ng-model="adm.zevelId" required>
+                    <button ng-click="adm.showDelete()">Show info</button>
+                    <button ng-click="adm.Burn()"> Delete Me Forever </button>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    
+    
+        <script src="AdminCompCtrl.js"></script>
+        <script src="AdminCompanySrvc.js"></script>
+        <script src ="../routeConfig.js"></script> 
+    </body>
+    
+    </html>
