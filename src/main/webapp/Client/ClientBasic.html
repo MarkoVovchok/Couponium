@@ -1,0 +1,113 @@
+<html ng-app="Unicorn">
+
+<head>
+    <title>Client</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../angular.js"></script>
+    <script src="../angular-ui-router.min.js"></script>
+    <script src="../bootstrap.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="jumbotron">
+        <blockquote class="blockquote-reverse">
+            <p>CARPE NOCTEM!</p>
+            <footer>
+                <cite title="Source Title">By Romans, it is how i did this project</cite>
+            </footer>
+        </blockquote>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="container" ng-controller="ClientCtrl as cli">
+                <h3>Coupons available for now. Click on a coupon to buy it</h3>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Image Icon:</th>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Start Date:</th>
+                            <th>End Date:</th>
+                            <th>Message</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Amount Available</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="c in cli.AvailableCoupons">
+                        <tr ng-click="cli.selectIt($index); cli.toggleBuy()">
+                            <td>
+                                <img ng-src="{{c.image}}" style="width:60px">
+                            </td>
+                            <td>{{c.id}}</td>
+                            <td>{{c.title}}</td>
+                            <td>{{c.startDate}}</td>
+                            <td>{{c.endDate}}</td>
+                            <td>{{c.message}}</td>
+                            <td>{{c.type}}</td>
+                            <td>{{c.price}}</td>
+                            <td>
+                                <button ng-click="cli.buy()" ng-show="cli.buyMode">Buy this coupon!</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="container">
+                <div ng-controller="Sorter as sr">
+                    <h3>Purchased coupons:</h3>
+                    <pre>Sort by = {{propertyName}}; reverse = {{reverse}}</pre>
+                    <button ng-click="propertyName = null; reverse = false">Set to unsorted</button>
+                    <button ng-click="sortBy('price')">Sort by Price</button>
+                    <span class="sortorder" ng-show="propertyName === 'price'" ng-class="{reverse: reverse}"></span>
+                    {{Sorter.purchased}}
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Image Icon:</th>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Start Date:</th>
+                                <th>End Date:</th>
+                                <th>Message</th>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Amount Available</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in sr.purchased | orderBy:propertyName:reverse">
+                                <td>
+                                    <img ng-src="{{c.image}}" style="width:60px">
+                                </td>
+                                <td>{{c.id}}</td>
+                                <td>{{c.title}}</td>
+                                <td>{{c.startDate}}</td>
+                                <td>{{c.endDate}}</td>
+                                <td>{{c.message}}</td>
+                                <td>{{c.type}}</td>
+                                <td>{{c.price}}</td>
+                                <td>{{c.amount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="ClientCtrl.js"></script>
+    <script src="ClientSrvc.js"></script>
+    <script src="PurchSortCtrl.js"></script>
+</body>
+
+</html>

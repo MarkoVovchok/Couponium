@@ -2,12 +2,14 @@ package john.bryce89.couponiumWeb;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import core.beans.Coupon;
@@ -18,12 +20,16 @@ import core.facade.CustomerFacade;
 
 @Path("customer")
 public class CustomerService {
-
+	@Context private HttpServletRequest request;
 	public CustomerService() {
 	}
 
-	public CustomerFacade getHarambe() {
-		return (CustomerFacade) CouponSystem.getInstance().login("Harambe", "Dicksout", ClientTypes.CUSTOMER);
+/**
+ * This a login, it provides Facade from the current session attribute.
+ * @return
+ */
+	private CustomerFacade getHarambe() {
+		return (CustomerFacade) request.getSession().getAttribute("facade");
 	}
 
 	@POST

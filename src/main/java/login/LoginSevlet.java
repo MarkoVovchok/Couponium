@@ -43,13 +43,13 @@ public class LoginSevlet extends HttpServlet {
 		request.getSession().setAttribute("facade", facade);
 		
 		if(facade instanceof CompanyFacade){
-			response.sendRedirect(request.getContextPath()+"src/main/webapp/WEB-INF/webPart/Company/CompanyBasic.html");
+			response.sendRedirect("Company/CompanyBasic.html");
 		}else if(facade instanceof CustomerFacade){
-			response.sendRedirect(request.getContextPath()+"src/main/webapp/WEB-INF/webPart/Client/ClientBasic.html");
+			response.sendRedirect("Client/ClientBasic.html");
 		}else if(facade instanceof AdminFacade){
-			response.sendRedirect(request.getContextPath()+"src/main/webapp/WEB-INF/webPart/Admin/AdminBasic.html#/");
+			response.sendRedirect("Admin/AdminBasic.html");
 		}else {
-			response.sendRedirect(request.getContextPath()+"src/main/webapp/WEB-INF/index.html");
+			response.sendRedirect("index.html");
 		}
 	}
 

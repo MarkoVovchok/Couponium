@@ -3,6 +3,7 @@
 	<name>couponiumWeb</name>
 	<comment></comment>
 	<projects>
+		<project>Couponium</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -2,7 +2,9 @@ package john.bryce89.couponiumWeb;
 
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 
 import core.beans.Coupon;
 import core.beans.CouponType;
@@ -12,16 +14,16 @@ import john.bryce89.couponiumWeb.WebCoupon;
 
 @Path("company")
 public class CompanyService {
-
+	@Context private HttpServletRequest request;
 	public CompanyService() {
 
 	}
 
 	/**
-	 * This is a fake login later i will change it
+	 * This is login 
 	 */
 	public CompanyFacade getBrutalPower() {
-		CompanyFacade c = (CompanyFacade) CouponSystem.getInstance().login("BrutalPower", "Huah", ClientTypes.COMPANY);
+		CompanyFacade c = (CompanyFacade) request.getSession().getAttribute("facade");
 		return c;
 	}
 

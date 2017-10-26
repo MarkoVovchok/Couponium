@@ -3,6 +3,7 @@ package john.bryce89.couponiumWeb;
 import java.util.Collection;
 import java.util.HashSet;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,27 +12,27 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import core.beans.Company;
 import core.beans.Customer;
-import core.couponsystem.CouponSystem;
 import core.facade.AdminFacade;
-import core.facade.ClientTypes;
 
 @Path("admin")
 public class AdminService {
-
+	@Context private HttpServletRequest request;
+	
 	public AdminService() {
 	}
 
 	/**
-	 * This method is a fake login check, that always returns AdminFacade
+	 * This method provides facade from session
 	 * 
 	 * @return AdminFacade
 	 */
 	private AdminFacade getAdminPower() {
-		AdminFacade f = (AdminFacade) CouponSystem.getInstance().login("ADMIN", "1234", ClientTypes.ADMIN);
+		AdminFacade f = (AdminFacade) request.getSession().getAttribute("facade");
 		return f;
 	}
 

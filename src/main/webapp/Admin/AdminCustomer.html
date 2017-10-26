@@ -1,0 +1,91 @@
+<html ng-app="Unicorn">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../angular.js"></script>
+    <script src="../angular-ui-router.min.js"></script>
+    <script src="../bootstrap.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="c in cust.CustomersToShow" ng-click="cust.selectIt($index)">
+                    <span>{{c.id + " " + c.custName}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-success" ng-if="cust.yesMessage"> {{cust.yesMessage}} </div>
+            <div class="alert alert-danger" ng-if="cust.noMessage">{{cust.noMessage}}</div>
+            <div class="alert alert-success" ng-if="cust.purgedMes">{{cust.purgedMes}}</div>
+            <div class="alert alert-danger" ng-if="cust.notPurged">{{cust.notPurged}}</div>
+            <button ng-click="cust.creatiOn()">Add a new Customer</button>
+            <button ng-hide="cust.EditIsOn" ng-click="cust.startEdit()">Edit</button>
+            <button ng-show="cust.EditIsOn" ng-click="cust.updateStart()">Save</button>
+            <button ng-click="cust.DeleteIt()">Delete Customer</button>
+            <div ng-hide="cust.creationMode">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Id: </th>
+                            <td>{{cust.selectedCust.id}}</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">Name: </th>
+                            <td>{{cust.selectedCust.custName}}</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">Password: </th>
+                            <td ng-hide="cust.EditIsOn">{{cust.selectedCust.password}}</td>
+                            <td>
+                                <input type="text" ng-show="cust.EditIsOn" ng-model="cust.selectedCust.password">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-success" ng-if="cust.yesMes">{{cust.yesMes}}</div>
+            <div class="alert alert-danger" ng-if="cust.noMes">{{cust.noMes}}</div>
+            <div ng-show="cust.creationMode">
+                <form>
+                    <h3>Insert customer's info here: </h3>
+                    <div class="form-group">
+                        <label>Id:</label>
+                        <input type="number" class="form-control" ng-model="cust.selectedCust.id" placeholder="Digits Only Please!" required>
+                    </div>
+                    <div class="from-group">
+                        <label>Name:</label>
+                        <input type="text" class="form-control" ng-model="cust.selectedCust.custName">
+                    </div>
+                    <div class="from-group">
+                        <label>Password:</label>
+                        <input type="text" class="form-control" ng-model="cust.selectedCust.password">
+                    </div>
+                    <button ng-click="cust.startNewCusto()"> Create </button>
+                </form>
+            </div>
+            <div ng-show="cust.deleteMode">
+                <input type="number" ng-model="cust.zevelId" required>
+                <button ng-click="cust.showDelete()">Show info</button>
+                <button ng-click="cust.Burn()"> Delete Me Forever </button>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+    <script src="AdminCustCtrl.js"></script>
+    <script src="AdminCustomerSrvc.js"></script>
+    <script src="../routeConfig.js"></script>
+</body>
+
+</html>

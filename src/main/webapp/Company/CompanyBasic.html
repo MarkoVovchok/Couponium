@@ -1,0 +1,221 @@
+<html ng-app="Unicorn">
+
+<head>
+    <title>Company</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../angular.js"></script>
+    <script src="../angular-ui-router.min.js"></script>
+    <script src="../angular-messages.js"></script>
+    <script src="../bootstrap.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+</head>
+
+<body ng-controller="CompanyCtrl as comp">
+    <div class="jumbotron">
+        <blockquote class="blockquote-reverse">
+            <p>Si vic pasem, para bellum!</p>
+            <footer>
+                <cite title="Source Title">Cornelius Nepos of Rome</cite>
+            </footer>
+        </blockquote>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="container">
+                <button ng-click="comp.creatiOn()">Issue a new Coupon</button>
+                <br>
+                <br>
+                <button ng-click="comp.DeleteIt()"> Delete a Coupon</button>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <div class="alert alert-success" ng-if="comp.purgedMes">{{comp.purgedMes}}</div>
+                <div class="alert alert-danger" ng-if="comp.notPurged">{{comp.notPurged}}</div>
+                <div class="alert alert-success" ng-if="comp.yesMes">{{comp.yesMes}}</div>
+                <div class="alert alert-danger" ng-if="comp.noMes">{{comp.noMes}}</div>
+                <div class="alert alert-success" ng-if="comp.yesMessage">{{comp.yesMessage}}</div>
+                <div class="alert alert-danger" ng-if="comp.noMessage">{{comp.noMessage}}</div>
+                <div ng-show="comp.DeleteMode">
+                    <h4>Print the id of the coupon, that you want to delete:</h4>
+                    <input type="number" ng-model="comp.zevelId" />
+                    <button ng-click="comp.Rekt()"> Delete This Coupon </button>
+                    <p>{{comp.zevelId}}</p>
+                    <br>
+                    <br>
+                </div>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>End Date</th>
+                            <th>Available</th>
+                            <th>Price</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="cp in comp.Collection">
+                        <tr ng-click="comp.selectIt($index)">
+                            <td>{{cp.id}}</td>
+                            <td>{{cp.title}}</td>
+                            <td>{{cp.endDate}}</td>
+                            <td>{{cp.amount}}</td>
+                            <td>{{cp.price}}</td>
+                            <td>{{cp.type}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="container">
+                <div class="media">
+                    <div class="media-left">
+                        <img ng-src={{comp.selectedCoup.image}} ng-if="comp.selectedCoup.image" class="media-object" style="width:60px">
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{comp.selectedCoup.title}}</h4>
+                        <button ng-hide="comp.EditMode" ng-click="comp.startEdit()"> Edit </button>
+                    </div>
+                    <div class="container">
+                        <form ng-show="comp.CreationMode" name="nuw">
+                            <div class="form-group">
+                                <label>ID:</label>
+                                <input type="number" class="form-control" ng-model="comp.newCoup.id" minlength="1" ng-model-options="{updateOn: 'default blur', debounce: {default: 500, blur: 0}}"
+                                    placeholder="Only digits please, at minimum of 1" idTor required>
+                                <span ng-messages="nuw.comp.newCoup.id.$error" ng-show="nuw.comp.newCoup.id.$dirty">
+                                    <span ng-message="minlength">Too short!</span>
+                                    <span ng-message="notToday">ID is already taken!</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Title:</label>
+                                <input type="text" class="form-control" ng-model="comp.newCoup.title" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Start Date:</label>
+                                <input type="date" class="form-control" ng-model="comp.newCoup.startDate" min="2017-01-01" placeholder="yyyy-MM-dd"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label>End Date:</label>
+                                <input type="date" class="form-control" ng-model="comp.newCoup.endDate" min="2017-01-01" placeholder="yyyy-MM-dd"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label>Amount:</label>
+                                <input type="number" class="form-control" ng-model="comp.newCoup.amount" name="amount" placeholder="At least one" min="1"
+                                    required>
+                                <span class="error" ng-show="nuw.amount.$error.required">
+                                    Required!</span>
+                                <span class="error" ng-show="nuw.amount.$error.number">
+                                    At least 1!</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Message:</label>
+                                <input type="text" class="form-control" ng-model="comp.newCoup.message">
+                            </div>
+                            <div class="form-group">
+                                <label>Price:</label>
+                                <input type="number" class="form-control" ng-model="comp.newCoup.price" name="price" placeholder="00.00" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                                    step="0.01" required>
+                                <div role="alert">
+                                    <span class="error" ng-show="nuw.price.$error.required">
+                                        Required!</span>
+                                    <span class="error" ng-show="nuw.price.$error.number">
+                                        Not valid number!</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label> Choose type: </label>
+                                <br>
+                                <select name="singleSelect" ng-model="comp.newCoup.type">
+                                    <option value="RESTARAUNTS"> RESTARAUNTS</option>
+                                    <option value="ELECTRICITY">ELECTRICITY</option>
+                                    <option value="FOOD">FOOD</option>
+                                    <option value="HEALTH">HEALTH</option>
+                                    <option value="SPORTS">SPORTS</option>
+                                    <option value="CAMPING">CAMPING</option>
+                                    <option value="TRAVELLING">TRAVELLING</option>
+                                    <option value="BEAUTY">BEAUTY</option>
+                                    <option value="ACTIVITIES">ACTIVITIES</option>
+                                    <option value="EXTREME">EXTREME</option>
+                                </select>
+                                <br>
+                            </div>
+                            <button ng-click="comp.startNew()">Save</button>
+                        </form>
+                        <form ng-show="comp.EditMode" name="upd">
+                            <div class="form-group">
+                                <label>Title:</label>
+                                <input type="text" class="form-control" ng-model="comp.selectedCoup.title">
+                            </div>
+                            <div class="form-group">
+                                <label>Start Date:</label>
+                                <input type="date" class="form-control" ng-model="comp.selectedCoup.startDate" min="2017-01-01" placeholder="yyyy-MM-dd"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label>End Date:</label>
+                                <input type="date" class="form-control" ng-model="comp.selectedCoup.endDate" min="2017-01-01" placeholder="yyyy-MM-dd"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label>Amount:</label>
+                                <input type="number" class="form-control" ng-model="comp.selectedCoup.amount" name="amount" placeholder="{{comp.selectedCoup.amount}}"
+                                    min="1" required>
+                                <span class="error" ng-show="upd.amount.$error.required">
+                                    Required!</span>
+                                <span class="error" ng-show="upd.amount.$error.number">
+                                    At least 1!</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Message:</label>
+                                <input type="text" class="form-control" ng-model="comp.selectedCoup.message" placeholder="{{comp.selectedCoup.message}}">
+                            </div>
+                            <div class="form-group">
+                                <label>Price:</label>
+                                <input type="number" class="form-control" ng-model="comp.selectedCoup.price" name="price" placeholder="{{comp.selectedCoup.price}}"
+                                    ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                                <div role="alert">
+                                    <span class="error" ng-show="upd.price.$error.required">
+                                        Required!</span>
+                                    <span class="error" ng-show="upd.price.$error.number">
+                                        Not valid number!</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label> Choose type: </label>
+                                <br>
+                                <select name="singleSelect" ng-model="comp.selectedCoup.type">
+                                    <option value="RESTARAUNTS"> RESTARAUNTS</option>
+                                    <option value="ELECTRICITY">ELECTRICITY</option>
+                                    <option value="FOOD">FOOD</option>
+                                    <option value="HEALTH">HEALTH</option>
+                                    <option value="SPORTS">SPORTS</option>
+                                    <option value="CAMPING">CAMPING</option>
+                                    <option value="TRAVELLING">TRAVELLING</option>
+                                    <option value="BEAUTY">BEAUTY</option>
+                                    <option value="ACTIVITIES">ACTIVITIES</option>
+                                    <option value="EXTREME">EXTREME</option>
+                                </select>
+                                <br>
+                            </div>
+                            <button ng-click="comp.updateGo()">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="CompanyBasicCtrl.js"></script>
+    <script src="CompanyBasicSrvc.js"></script>
+    <script src="CouponIDValidation.js"></script>
+</body>
+
+</html>
