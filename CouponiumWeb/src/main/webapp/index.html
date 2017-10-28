@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <title>Login Page</title>
+    <script type="text/javascript" src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <blockquote class="blockquote-reverse">
+            <p>Per aspera ad astra</p>
+            <footer>
+                <cite title="Source Title">Lucius Annaeus Seneca</cite>
+            </footer>
+        </blockquote>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <form id="loginer" action="http://localhost:8080/couponiumWeb/login" method="POST">
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>
+                        <a href="#" title="Psss..." data-toggle="popover" data-trigger="focus" data-content="Try 1234 for Admin, or Dicksout for Harambe, or Huah for BrutalPower"
+                        data-placement="top">
+                            <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                        </a>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-lock"></i>
+                        </span>
+                        <input type="text" class="form-control" name="password" id="pass" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="clientType">
+                            <option>CUSTOMER</option>
+                            <option>COMPANY</option>
+                            <option>ADMIN</option>
+                        </select>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="remember" value="remember">Remember me!</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <div class="LI-profile-badge" data-version="v1" data-size="medium" data-locale="ru_RU" data-type="horizontal" data-theme="light"
+                    data-vanity="mark-ig-shapiro">
+                    <a class="LI-simple-link" href='https://il.linkedin.com/in/mark-ig-shapiro?trk=profile-badge'>Mark Shapiro</a>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <!-- This is a remember implementation. It changes Name and Password fields according to cookies -->
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+    <script>
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        var namo = getCookie("name");
+        var password = getCookie("password");
+        var str = ""
+        if (namo !== str){
+        alert("Welcome back, "+ namo)    
+        document.getElementsByName('name')[0].placeholder=''+ namo;
+        document.getElementsByName('password')[0].placeholder=''+ password;
+        }
+    </script>
+</body>
+
+</html>
