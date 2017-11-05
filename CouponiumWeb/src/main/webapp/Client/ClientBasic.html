@@ -12,7 +12,7 @@
         crossorigin="anonymous">
 </head>
 
-<body>
+<body ng-controller="ClientCtrl as cli">
     <div class="jumbotron">
         <blockquote class="blockquote-reverse">
             <p>CARPE NOCTEM!</p>
@@ -23,7 +23,8 @@
     </div>
     <div class="row">
         <div class="col-md-8">
-            <div class="container" ng-controller="ClientCtrl as cli">
+            <div class="container">
+                <button ng-click="cli.logOut()" class="btn btn-info">Logout</button>
                 <h3>Coupons available for now. Click on a coupon to buy it</h3>
                 <table class="table table-bordered table-hover">
                     <thead>
@@ -51,6 +52,7 @@
                             <td>{{c.message}}</td>
                             <td>{{c.type}}</td>
                             <td>{{c.price}}</td>
+                            <td>{{c.amount}}</td>
                             <td>
                                 <button ng-click="cli.buy()" ng-show="cli.buyMode">Buy this coupon!</button>
                             </td>
@@ -63,13 +65,13 @@
     <div class="row">
         <div class="col-md-8">
             <div class="container">
-                <div ng-controller="Sorter as sr">
+                <div>
+                    <div class="alert alert-success" ng-if="cli.purchSucc"> {{cli.purchSucc}} </div>
+                    <div class="alert alert-danger" ng-if="cli.noPurch">{{cli.noPurch}}</div>
                     <h3>Purchased coupons:</h3>
-                    <pre>Sort by = {{propertyName}}; reverse = {{reverse}}</pre>
-                    <button ng-click="propertyName = null; reverse = false">Set to unsorted</button>
+                    <button ng-click="sortBy(null)">Set to unsorted</button>
                     <button ng-click="sortBy('price')">Sort by Price</button>
-                    <span class="sortorder" ng-show="propertyName === 'price'" ng-class="{reverse: reverse}"></span>
-                    {{Sorter.purchased}}
+                    <button ng-click="sortBy('type')">Sort by Type</button>
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
@@ -81,11 +83,10 @@
                                 <th>Message</th>
                                 <th>Type</th>
                                 <th>Price</th>
-                                <th>Amount Available</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="c in sr.purchased | orderBy:propertyName:reverse">
+                            <tr ng-repeat="c in coupons">
                                 <td>
                                     <img ng-src="{{c.image}}" style="width:60px">
                                 </td>
@@ -96,7 +97,6 @@
                                 <td>{{c.message}}</td>
                                 <td>{{c.type}}</td>
                                 <td>{{c.price}}</td>
-                                <td>{{c.amount}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -107,7 +107,7 @@
 
     <script src="ClientCtrl.js"></script>
     <script src="ClientSrvc.js"></script>
-    <script src="PurchSortCtrl.js"></script>
+    <script src="../logoutSrvc.js"></script>
 </body>
 
 </html>

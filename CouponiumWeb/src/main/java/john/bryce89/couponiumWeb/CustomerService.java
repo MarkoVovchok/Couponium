@@ -29,7 +29,8 @@ public class CustomerService {
  * @return
  */
 	private CustomerFacade getHarambe() {
-		return (CustomerFacade) request.getSession().getAttribute("facade");
+		CustomerFacade c = (CustomerFacade) request.getSession().getAttribute("facade");
+		return c;
 	}
 
 	@POST
@@ -45,8 +46,8 @@ public class CustomerService {
 	@Path("getAll")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<WebCoupon> getAllPurchased() {
-
-		Collection<Coupon> coups = getHarambe().getCustomersCoupons(getHarambe().getCustID());
+		long custId = getHarambe().getCustID();
+		Collection<Coupon> coups = getHarambe().getCustomersCoupons(custId);
 		Collection<WebCoupon> webc = WebCoupon.convertAlltoWebCoupons(coups);
 		return webc;
 	}
