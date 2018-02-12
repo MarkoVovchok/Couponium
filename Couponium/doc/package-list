@@ -1,0 +1,10 @@
+connections
+core.beans
+core.couponsystem
+core.facade
+dao.interfaces
+db.core
+dbdao.core
+exceptions_handling
+tests
+threads
